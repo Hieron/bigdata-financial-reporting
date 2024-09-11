@@ -1,0 +1,87 @@
+name: bigdata-financial-reporting
+
+services:
+  coordinator:
+    build: .
+    container_name: coordinator
+    environment:
+      - NODE_TYPE=coordinator
+    ports:
+      - "7077:7077"
+      - "8080:8080"
+      - "9870:9870"
+      - "9000:9000"
+      - "18080:18080"
+    volumes:
+      - ./local/spark:/opt/spark
+      - ./local/hadoop:/opt/hadoop
+      - coordinator:/opt/hadoop_data/namenode
+    networks:
+      - cluster_network
+
+  executor-1:
+    build: .
+    container_name: executor-1
+    environment:
+      - NODE_TYPE=executor
+      - COORDINATOR_URL=spark://coordinator:7077
+    depends_on:
+      - coordinator
+    ports:
+      - "9865:9864"
+      - "8082:8081"
+    volumes:
+      - ./local/spark:/opt/spark
+      - ./local/hadoop:/opt/hadoop
+      - executor_1:/opt/hadoop_data/datanode
+    networks:
+      - cluster_network
+
+  executor-2:
+    build: .
+    container_name: executor-2
+    environment:
+      - NODE_TYPE=executor
+      - COORDINATOR_URL=spark://coordinator:7077
+    depends_on:
+      - coordinator
+    ports:
+      - "9866:9864"
+      - "8083:8081"
+    volumes:
+      - ./local/spark:/opt/spark
+      - ./local/hadoop:/opt/hadoop
+      - executor_2:/opt/hadoop_data/datanode
+    networks:
+      - cluster_network
+
+  controller:
+    build: .
+    container_name: controller
+    environment:
+      - NODE_TYPE=controller
+      - COORDINATOR_URL=spark://coordinator:7077
+    depends_on:
+      - coordinator
+      - executor-1
+      - executor-2
+    ports:
+      - "4040:4040"
+      - "6000:6000"
+    volumes:
+      - ./controller:/tmp/data
+      - ./local/spark:/opt/spark
+      - ./local/hadoop:/opt/hadoop
+    networks:
+      - cluster_network
+    stdin_open: true
+    tty: true
+
+volumes:
+  coordinator:
+  executor_1:
+  executor_2:
+
+networks:
+  cluster_network:
+    driver: bridge
