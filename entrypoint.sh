@@ -39,6 +39,7 @@ elif [ "$NODE_TYPE" = "executor" ]; then
 
 elif [ "$NODE_TYPE" = "controller" ]; then
     start_ssh
+    bash /tmp/data/run.sh
     tail -f /dev/null
 
 else
