@@ -79,6 +79,24 @@ services:
     env_file:
       - .env 
 
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "80:5000"
+    volumes:
+      - ./backend:/app
+      - /app/__pycache__ 
+    environment:
+      - FLASK_ENV=development
+    networks:
+      - cluster_network
+    depends_on:
+      - coordinator
+      - executor-1
+      - executor-2
+      - controller
+
 volumes:
   coordinator:
   executor_1:

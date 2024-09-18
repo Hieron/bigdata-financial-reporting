@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs</title>
+    <link href="{{ url_for('static', filename='styles/main.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='scripts/index.js') }}" type="text/javascript" defer></script>
+</head>
+<body>
+    <div class="header">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo da Empresa" height="70">
+        <div>Big Data</div>
+    </div>
+    <div class="card card-jobs" style="max-width:1280px">
+        <h1 class="title">Jobs Agendados</h1>
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% elif jobs %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Próxima Execução</th>
+                        <th>Trigger</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                        <tr>
+                            <td>{{ job.id }}</td>
+                            <td>{{ job.name }}</td>
+                            <td>{{ job.next_run_time }}</td>
+                            <td>{{ job.trigger }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="no-jobs">Nenhum job agendado.</p>
+        {% endif %}
+    </div>
+    <div class="reference">
+        MBA em Engenharia de Software
+    </div>
+    <div class="header">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo da Empresa" height="70">
+    </div>
+</body>
+</html>

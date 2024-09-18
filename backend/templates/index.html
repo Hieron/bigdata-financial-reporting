@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+    <link href="{{ url_for('static', filename='styles/main.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='scripts/index.js') }}" type="text/javascript" defer></script>
+</head>
+<body>
+    <div class="header">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo da Empresa" height="70">
+        <div>Big Data</div>
+    </div>
+    <div class="card">
+        <h1 class="title">Requisição de relatório</h1>
+        <form id="dataForm">
+            <div class="field">
+                <label for="initial_date">Data inicial:</label>
+                <input type="text" id="initial_date" name="initial_date" placeholder="dd/mm/aaaa" maxlength="10">
+                <div class="error-message" id="initial_date_error"></div>
+            </div>
+            <div class="field">
+                <label for="final_date">Data final:</label>
+                <input type="text" id="final_date" name="final_date" placeholder="dd/mm/aaaa" maxlength="10">
+                <div class="error-message" id="final_date_error"></div>
+            </div>
+            <div class="field">
+                <label for="email">E-mail:</label>
+                <input type="text" id="email" name="email" placeholder="usuario@email.com">
+                <div class="error-message" id="email_error"></div>
+            </div>
+            <div id="alert" class="alert"></div>
+            <button class="submit" type="submit">Enviar</button>
+        </form>
+        <div class="footer">
+            <p class="form-description">Este formulário permite que você solicite um relatório dos dados de ativos do mercado financeiro. 
+                O relatório será gerado e enviado para o e-mail informado.</p>
+            Trabalho Big Data.
+            <a href="/jobs" style="text-decoration: none; color: blue;">Ver jobs agendados</a>
+        </div>
+    </div>
+    <div class="reference">
+        MBA em Engenharia de Software
+    </div>
+    <div class="header">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo da Empresa" height="70">
+    </div>
+</body>
+</html>
